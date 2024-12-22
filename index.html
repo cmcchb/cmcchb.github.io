@@ -66,9 +66,23 @@
         });
     }
 
-    const script = document.createElement('script');
-    script.src = 'https://dev.coc.10086.cn/coc3/coc3-market-activity/arrange/getProByActId?activityId=15283&batchId=0&showLimit=14&action=goodinfo&callback=handleJSONP';
-    document.body.appendChild(script);
+    async function fetchData() {
+        try {
+            const response = await fetch('https://dev.coc.10086.cn/coc3/coc3-market-activity/arrange/getProByActId?activityId=15283&batchId=0&showLimit=14&action=goodinfo&callback=handleJSONP', {
+                method: 'GET',
+                headers: {
+                    'Referer': 'https://dev.coc.10086.cn',
+                    'Content-Type': 'application/json'
+                }
+            });
+            const data = await response.json();
+            handleJSONP(data);
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    }
+
+    fetchData();
 
     function formatDate(timestamp) {
         const timestampLength = timestamp.toString().length;
@@ -92,8 +106,8 @@
             default: return '未知状态';
         }
     }
-
 </script>
+
 
 </body>
 </html>
